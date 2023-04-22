@@ -48,7 +48,7 @@ dependencies:
   cloud_functions: ^4.0.2
   cloud_firestore: ^4.0.2
   rename: ^2.1.1
-  modal_bottom_sheet: ^2.1.2
+  # modal_bottom_sheet: ^2.1.2
   fancy_bottom_navigation_2: ^0.3.5
 
 
