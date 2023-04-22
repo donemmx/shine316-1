@@ -34,6 +34,7 @@ class _NavigationState extends State<Navigation> {
     return Scaffold(
       body: screen[selected],
       bottomNavigationBar: FancyBottomNavigation(
+        circleColor: Colors.red,
         // currentIndex: selected,
         onTabChangedListener: (value) {
           setState(() {
