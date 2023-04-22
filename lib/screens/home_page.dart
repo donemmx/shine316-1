@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../widget/json.dart';
 import 'message.dart';
@@ -179,10 +179,10 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
               onPressed: (() {
-                showMaterialModalBottomSheet(
-                  context: context,
-                  builder: (context) => Container(),
-                );
+                // showMaterialModalBottomSheet(
+                //   context: context,
+                //   builder: (context) => Container(),
+                // );
               }),
               icon: Icon(Icons.bookmark)),
           SizedBox(
@@ -228,11 +228,10 @@ class _HomePageState extends State<HomePage> {
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height * .3,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        gradient: const LinearGradient(
+                        gradient: const LinearGradient(stops: [.4,.7],
                           begin: Alignment.centerLeft,
                           end: Alignment.bottomRight,
-                          colors: [Colors.black, Colors.red],
+                          colors: [Colors.black, Colors.white],
                         ),
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -247,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                                     borderRadius: BorderRadius.circular(20),
                                     child: Image.network(
                                       snapshot.data,
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.cover,
                                     ));
                               } else {
                                 return const Center(
@@ -260,10 +259,10 @@ class _HomePageState extends State<HomePage> {
                         Container(
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              stops: [.6, .9],
+                              stops: [.05, .9],
                               begin: Alignment.centerLeft,
                               end: Alignment.bottomRight,
-                              colors: [Colors.black54, Colors.black26],
+                              colors: [Colors.black, Colors.black26],
                             ),
                             borderRadius: BorderRadius.circular(20),
                           ),

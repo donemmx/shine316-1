@@ -34,7 +34,9 @@ class _NavigationState extends State<Navigation> {
     return Scaffold(
       body: screen[selected],
       bottomNavigationBar: FancyBottomNavigation(
-        circleColor: Colors.red,
+        circleColor: Colors.blue,
+        activeIconColor: Colors.white,
+        inactiveIconColor: Colors.black,
         // currentIndex: selected,
         onTabChangedListener: (value) {
           setState(() {
@@ -47,8 +49,9 @@ class _NavigationState extends State<Navigation> {
         // unselectedItemColor: Colors.white54,
         tabs: [
           TabData(iconData: Icons.home, title: "Home"),
-          TabData(iconData: Icons.search, title: "Search"),
-          TabData(iconData: Icons.shopping_cart, title: "Basket")
+          TabData(iconData: Icons.wifi, title: "Raio"),
+          TabData(iconData: Icons.message, title: "Messages"),
+          TabData(iconData: Icons.schedule, title: "Schedule")
         ],
       ),
     );
