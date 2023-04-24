@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_theme_provider/flutter_theme_provider.dart';
+import 'package:get/get.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:shineradio/screens/home_page.dart';
 import 'package:shineradio/screens/welcome.dart';
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
     print('the device mode is $isDarkMode');
     return Container(
       child: Builder(builder: (context) {
-        return MaterialApp(
+        return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'shine radio',
           theme: lightTheme,

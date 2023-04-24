@@ -50,6 +50,8 @@ dependencies:
   rename: ^2.1.1
   # modal_bottom_sheet: ^2.1.2
   fancy_bottom_navigation_2: ^0.3.5
+  get: ^4.6.5
+
 
 
 dev_dependencies:

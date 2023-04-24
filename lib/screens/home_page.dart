@@ -4,9 +4,11 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
+import 'package:shineradio/controller/get_controller.dart';
 // import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../widget/json.dart';
@@ -24,39 +26,42 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.player.playing == false) {
-      getRequest();
-    }
-
-    Timer.periodic(Duration(seconds: 5), (timer) {
-      getPlayTitle();
-    });
-    audiobackground();
+    // if (widget.player.playing == false) {
+    //   getRequest();
+    // }
+    getRequest();
+    playSong();
+    // Timer.periodic(Duration(seconds: 5), (timer) {
+    //   getPlayTitle();
+    // });
+    // audiobackground();
   }
 
-  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
-      .collection('messgaes')
-      .orderBy('timestamp', descending: true)
-      .snapshots();
-  void audiobackground() async {
-    try {
-      // AAC example: https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.aac
-      await widget.player.setAudioSource(AudioSource.uri(
-        Uri.parse(decodedResponse['data']['streaming_links'][1]['url']),
-        tag: MediaItem(
-          // Specify a unique ID for each media item:
-          id: '1',
-          // Metadata to display in the notification:
-          album: "Playing",
-          title: decodedResponse2['data']['title'],
-          artUri: Uri.parse(
-              'https://firebasestorage.googleapis.com/v0/b/notify-cc847.appspot.com/o/zion%20radio.jpeg?alt=media&token=62123633-b815-4e57-bb53-2a208fb06477'),
-        ),
-      ));
-    } catch (e) {
-      print("Error loading audio source*******************************: $e");
-    }
-  }
+  final MessageController _messageController = Get.put(MessageController());
+
+  // final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+  //     .collection('messgaes')
+  //     .orderBy('timestamp', descending: true)
+  //     .snapshots();
+  // void audiobackground() async {
+  //   try {
+  //     // AAC example: https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.aac
+  //     await widget.player.setAudioSource(AudioSource.uri(
+  //       Uri.parse(decodedResponse['data']['streaming_links'][1]['url']),
+  //       tag: MediaItem(
+  //         // Specify a unique ID for each media item:
+  //         id: '1',
+  //         // Metadata to display in the notification:
+  //         album: "Playing",
+  //         title: decodedResponse2['data']['title'],
+  //         artUri: Uri.parse(
+  //             'https://firebasestorage.googleapis.com/v0/b/notify-cc847.appspot.com/o/zion%20radio.jpeg?alt=media&token=62123633-b815-4e57-bb53-2a208fb06477'),
+  //       ),
+  //     ));
+  //   } catch (e) {
+  //     print("Error loading audio source*******************************: $e");
+  //   }
+  // }
 
   get hc => FromDatabase().fire;
 
@@ -89,7 +94,10 @@ class _HomePageState extends State<HomePage> {
   String url = 'https://public.radio.co/api/v2/sced7c0e79';
   String url2 = 'https://public.radio.co/api/v2/sced7c0e79/track/current';
   Future getRequest() async {
-    await FirebaseMessaging.instance.subscribeToTopic("tundegideon");
+    // await FirebaseMessaging.instance.subscribeToTopic("tundegideon");
+
+    print('8888888888888888888888888888');
+
     final response = await http.get(Uri.parse(url));
     final response2 = await http.get(Uri.parse(url2));
     decodedResponse = (jsonDecode(response.body));
@@ -141,8 +149,11 @@ class _HomePageState extends State<HomePage> {
 
   void playSong() {
     try {
+      print('*******************************************************');
       widget.player.setAudioSource(AudioSource.uri(
-          Uri.parse(decodedResponse['data']['streaming_links'][1]['url'])));
+          Uri.parse('https://servidor22.brlogic.com:8442/live')));
+
+      // Uri.parse(decodedResponse['data']['streaming_links'][0]['url'])));
       print(radioLink);
       widget.player.play();
     } catch (e) {
@@ -150,23 +161,23 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void backgroundSong() {
-    try {
-      AudioSource.uri(
-        Uri.parse(decodedResponse['data']['streaming_links'][1]['url']),
-        tag: MediaItem(
-          // Specify a unique ID for each media item:
-          id: '1',
-          // Metadata to display in the notification:
-          album: "Shine Radio",
-          title: decodedResponse3['data']['title'],
-          artUri: Uri.parse('https://example.com/albumart.jpg'),
-        ),
-      );
-    } catch (e) {
-      print(e);
-    }
-  }
+  // void backgroundSong() {
+  //   try {
+  //     AudioSource.uri(
+  //       Uri.parse(decodedResponse['data']['streaming_links'][1]['url']),
+  //       tag: MediaItem(
+  //         // Specify a unique ID for each media item:
+  //         id: '1',
+  //         // Metadata to display in the notification:
+  //         album: "Shine Radio",
+  //         title: decodedResponse3['data']['title'],
+  //         artUri: Uri.parse('https://example.com/albumart.jpg'),
+  //       ),
+  //     );
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +239,8 @@ class _HomePageState extends State<HomePage> {
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height * .3,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(stops: [.4,.7],
+                        gradient: const LinearGradient(
+                          stops: [.4, .7],
                           begin: Alignment.centerLeft,
                           end: Alignment.bottomRight,
                           colors: [Colors.black, Colors.white],
@@ -362,26 +374,16 @@ class _HomePageState extends State<HomePage> {
                 height: 10,
               ),
               Expanded(
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: _usersStream,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      print(snapshot.data);
-                      if (snapshot.hasError) {
-                        return const Text('Something went wrong');
-                      }
-
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: const Text("Loading"));
-                      }
-
-                      return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: hc.length,
-                          itemBuilder: (context, index) {
-                            return Messages(contentt, index);
-                          });
-                    }),
+                child: Obx(() {
+                  return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: _messageController.messagesList.length,
+                      itemBuilder: (context, index) {
+                        print(_messageController.messagesList[0]);
+                        print('_messageController.messagesList[0]');
+                        return Messages(_messageController.messagesList, index);
+                      });
+                }),
               )
             ],
           ),
@@ -390,64 +392,64 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Messages(content, index) {
-    return GestureDetector(
-      onTap: (() {
-        Navigator.push(context,
-            MaterialPageRoute(builder: ((context) => Message(index: index))));
-      }),
-      child: Container(
-        height: 90,
-        margin: EdgeInsets.only(bottom: 10),
-        width: double.infinity,
-        child: Row(
-          children: [
-            Container(
-              margin: EdgeInsets.only(right: 15),
-              height: 100,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white10),
-                borderRadius: BorderRadius.circular(18),
-              ),
-              width: 120,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(18),
-                child: Image.asset(
-                  content[index]['image'],
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width - 190,
-                  child: Text(
-                    hc[index]['title'],
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width - 190,
-                  child: Text(
-                    'Shine 3:16',
-                    style: TextStyle(fontSize: 13),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+  Messages(messagesList, index) {
+    // return GestureDetector(
+    //   onTap: (() {
+    //     Navigator.push(context,
+    //         MaterialPageRoute(builder: ((context) => Message(index: index))));
+    //   }),
+    //   child: Container(
+    //     height: 90,
+    //     margin: EdgeInsets.only(bottom: 10),
+    //     width: double.infinity,
+    //     child: Row(
+    //       children: [
+    //         Container(
+    //           margin: EdgeInsets.only(right: 15),
+    //           height: 100,
+    //           decoration: BoxDecoration(
+    //             border: Border.all(color: Colors.white10),
+    //             borderRadius: BorderRadius.circular(18),
+    //           ),
+    //           width: 120,
+    //           child: ClipRRect(
+    //             borderRadius: BorderRadius.circular(18),
+    //             child: Image.asset(
+    //               messagesList[index]['image'],
+    //               fit: BoxFit.fill,
+    //             ),
+    //           ),
+    //         ),
+    //         Column(
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           mainAxisAlignment: MainAxisAlignment.center,
+    //           children: [
+    //             Container(
+    //               width: MediaQuery.of(context).size.width - 190,
+    //               child: Text(
+    //                 messagesList[index]['title'],
+    //                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+    //                 overflow: TextOverflow.ellipsis,
+    //                 maxLines: 2,
+    //               ),
+    //             ),
+    //             SizedBox(
+    //               height: 5,
+    //             ),
+    //             Container(
+    //               width: MediaQuery.of(context).size.width - 190,
+    //               child: Text(
+    //                 'Shine 3:16',
+    //                 style: TextStyle(fontSize: 13),
+    //                 overflow: TextOverflow.ellipsis,
+    //                 maxLines: 2,
+    //               ),
+    //             )
+    //           ],
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

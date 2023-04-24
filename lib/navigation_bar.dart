@@ -49,7 +49,7 @@ class _NavigationState extends State<Navigation> {
         // unselectedItemColor: Colors.white54,
         tabs: [
           TabData(iconData: Icons.home, title: "Home"),
-          TabData(iconData: Icons.wifi, title: "Raio"),
+          TabData(iconData: Icons.wifi, title: "Radio"),
           TabData(iconData: Icons.message, title: "Messages"),
           TabData(iconData: Icons.schedule, title: "Schedule")
         ],
